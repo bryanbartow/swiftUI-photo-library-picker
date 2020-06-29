@@ -993,7 +993,7 @@ final class PhotoLibraryPickerViewController: UIViewController {
             
         case .notDetermined:
             /// This case means the user is prompted for the first time for allowing contacts
-            Assets.requestAccess { [unowned self] status in
+            Assets.requestAccess { [weak self] status in
                 self.checkStatus(completionHandler: completionHandler)
             }
             
