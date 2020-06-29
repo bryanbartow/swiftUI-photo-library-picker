@@ -981,10 +981,10 @@ final class PhotoLibraryPickerViewController: UIViewController {
     }
     
     func updatePhotos() {
-        checkStatus { [unowned self] assets in
-            self.assets.removeAll()
-            self.assets.append(contentsOf: assets)
-            self.collectionView.reloadData()
+        checkStatus { [weak self] assets in
+            self?.assets.removeAll()
+            self?.assets.append(contentsOf: assets)
+            self?.collectionView.reloadData()
         }
     }
     
