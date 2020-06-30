@@ -758,7 +758,7 @@ public struct Assets {
         }
         
         DispatchQueue.global(qos: .userInitiated).async {
-            let fetchResult = PHAsset.fetchAssets(with: .image, options: PHFetchOptions())
+            let fetchResult = PHAsset.fetchAssets(with: .video, options: PHFetchOptions())
             
             if fetchResult.count > 0 {
                 var assets = [PHAsset]()
