@@ -1165,12 +1165,12 @@ public struct Picture : Identifiable {
         return Image(uiImage: image)
     }
     
-    public func videoUrl() -> URL? {
+    public func videoUrl(result: @escaping ((URL?) -> Void)) {
         PHImageManager.default().requestAVAsset(forVideo: PHAsset(), options: .none) { (asset, mix, dictionary) in
             if let urlAsset = asset as? AVURLAsset {
-                return urlAsset.url
+                result(urlAsset.url)
             } else {
-                return nil
+                result(nil)
             }
         }
     }
