@@ -1166,7 +1166,7 @@ public struct Picture : Identifiable {
     }
     
     public func videoUrl(result: @escaping ((URL?) -> Void)) {
-        PHImageManager.default().requestAVAsset(forVideo: PHAsset(), options: .none) { (asset, mix, dictionary) in
+        PHImageManager.default().requestAVAsset(forVideo: asset, options: .none) { (asset, mix, dictionary) in
             if let urlAsset = asset as? AVURLAsset {
                 result(urlAsset.url)
             } else {
