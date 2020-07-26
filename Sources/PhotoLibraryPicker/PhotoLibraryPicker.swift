@@ -1,11 +1,10 @@
-import SwiftUI
-import Foundation
-import UIKit
-import Photos
 import AudioToolbox
+import Foundation
+import Photos
+import SwiftUI
+import UIKit
 
 extension UIApplication {
-    
     class func topViewController(_ viewController: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
         if let nav = viewController as? UINavigationController {
             return topViewController(nav.visibleViewController)
@@ -24,7 +23,6 @@ extension UIApplication {
 }
 
 extension UIViewController {
-    
     var alertController: UIAlertController? {
         guard let alert = UIApplication.topViewController() as? UIAlertController else { return nil }
         return alert
@@ -32,7 +30,6 @@ extension UIViewController {
 }
 
 extension Array {
-    
     @discardableResult
     mutating func append(_ newArray: Array) -> CountableRange<Int> {
         let range = count..<(count + newArray.count)
@@ -52,19 +49,19 @@ extension Array {
         return start..<end
     }
     
-    mutating func remove<T: AnyObject> (_ element: T) {
+    mutating func remove<T: AnyObject>(_ element: T) {
         let anotherSelf = self
         
         removeAll(keepingCapacity: true)
         
-        anotherSelf.each { (index: Int, current: Element) in
+        anotherSelf.each { (_: Int, current: Element) in
             if (current as! T) !== element {
                 self.append(current)
             }
         }
     }
     
-    func each(_ exe: (Int, Element) -> ()) {
+    func each(_ exe: (Int, Element) -> Void) {
         for (index, item) in enumerated() {
             exe(index, item)
         }
@@ -72,7 +69,6 @@ extension Array {
 }
 
 extension UIColor {
-    
     /// SwifterSwift: https://github.com/SwifterSwift/SwifterSwift
     /// Hexadecimal value string (read-only).
     public var hexString: String {
@@ -95,9 +91,9 @@ extension UIColor {
     
     /// Color to Image
     func toImage(size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
-        let rect:CGRect = CGRect(origin: .zero, size: size)
+        let rect: CGRect = CGRect(origin: .zero, size: size)
         UIGraphicsBeginImageContextWithOptions(rect.size, true, 0)
-        self.setFill()
+        setFill()
         UIRectFill(rect)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -168,12 +164,12 @@ extension UIColor {
 }
 
 // MARK: - Initializers
+
 public extension UIColor {
-    
     convenience init(hex: Int, alpha: CGFloat) {
-        let r = CGFloat((hex & 0xFF0000) >> 16)/255
-        let g = CGFloat((hex & 0xFF00) >> 8)/255
-        let b = CGFloat(hex & 0xFF)/255
+        let r = CGFloat((hex & 0xFF0000) >> 16) / 255
+        let g = CGFloat((hex & 0xFF00) >> 8) / 255
+        let b = CGFloat(hex & 0xFF) / 255
         self.init(red: r, green: g, blue: b, alpha: alpha)
     }
     
@@ -188,9 +184,8 @@ public extension UIColor {
      - returns: UIColor from HexString
      */
     convenience init(hexString: String) {
-        
-        let hexString: String       = (hexString as NSString).trimmingCharacters(in: .whitespacesAndNewlines)
-        let scanner                 = Scanner(string: hexString as String)
+        let hexString: String = (hexString as NSString).trimmingCharacters(in: .whitespacesAndNewlines)
+        let scanner = Scanner(string: hexString as String)
         
         if hexString.hasPrefix("#") {
             scanner.scanLocation = 1
@@ -203,10 +198,10 @@ public extension UIColor {
         let g = Int(color >> 8) & mask
         let b = Int(color) & mask
         
-        let red   = CGFloat(r) / 255.0
+        let red = CGFloat(r) / 255.0
         let green = CGFloat(g) / 255.0
-        let blue  = CGFloat(b) / 255.0
-        self.init(red:red, green:green, blue:blue, alpha:1)
+        let blue = CGFloat(b) / 255.0
+        self.init(red: red, green: green, blue: blue, alpha: 1)
     }
     
     /// Create UIColor from RGB values with optional transparency.
@@ -216,7 +211,7 @@ public extension UIColor {
     ///   - green: green component.
     ///   - blue: blue component.
     ///   - transparency: optional transparency value (default is 1)
-    public convenience init(red: Int, green: Int, blue: Int, transparency: CGFloat = 1) {
+    convenience init(red: Int, green: Int, blue: Int, transparency: CGFloat = 1) {
         assert(red >= 0 && red <= 255, "Invalid red component")
         assert(green >= 0 && green <= 255, "Invalid green component")
         assert(blue >= 0 && blue <= 255, "Invalid blue component")
@@ -234,43 +229,42 @@ public extension UIColor {
 }
 
 // MARK: - Properties
+
 public extension UIView {
-    
     /// Size of view.
-    public var size: CGSize {
+    var size: CGSize {
         get {
-            return self.frame.size
+            return frame.size
         }
         set {
-            self.width = newValue.width
-            self.height = newValue.height
+            width = newValue.width
+            height = newValue.height
         }
     }
     
     /// Width of view.
-    public var width: CGFloat {
+    var width: CGFloat {
         get {
-            return self.frame.size.width
+            return frame.size.width
         }
         set {
-            self.frame.size.width = newValue
+            frame.size.width = newValue
         }
     }
     
     /// Height of view.
-    public var height: CGFloat {
+    var height: CGFloat {
         get {
-            return self.frame.size.height
+            return frame.size.height
         }
         set {
-            self.frame.size.height = newValue
+            frame.size.height = newValue
         }
     }
 }
 
 @IBDesignable
 extension UIView {
-    
     @IBInspectable
     /// Should the corner be as circle
     public var circleCorner: Bool {
@@ -290,7 +284,7 @@ extension UIView {
         }
         set {
             layer.cornerRadius = circleCorner ? min(bounds.size.height, bounds.size.width) / 2 : newValue
-                //abs(CGFloat(Int(newValue * 100)) / 100)
+            // abs(CGFloat(Int(newValue * 100)) / 100)
         }
     }
     
@@ -417,9 +411,7 @@ extension UIView {
     }
 }
 
-
 final class CurrencyTableViewCell: UITableViewCell {
-    
     static let identifier = String(describing: CurrencyTableViewCell.self)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -444,7 +436,6 @@ final class CurrencyTableViewCell: UITableViewCell {
 }
 
 class ItemWithImage: UICollectionViewCell {
-    
     static let identifier = String(describing: CurrencyTableViewCell.self)
     
     lazy var imageView: UIImageView = {
@@ -501,7 +492,7 @@ class ItemWithImage: UICollectionViewCell {
         selectedBackgroundView = selected
     }
     
-    override public func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         layout()
     }
@@ -541,7 +532,6 @@ class ItemWithImage: UICollectionViewCell {
 }
 
 extension UIView {
-    
     func searchVisualEffectsSubview() -> UIVisualEffectView? {
         if let visualEffectView = self as? UIVisualEffectView {
             return visualEffectView
@@ -557,27 +547,26 @@ extension UIView {
     
     /// This is the function to get subViews of a view of a particular type
     /// https://stackoverflow.com/a/45297466/5321670
-    func subViews<T : UIView>(type : T.Type) -> [T]{
+    func subViews<T: UIView>(type: T.Type) -> [T] {
         var all = [T]()
-        for view in self.subviews {
-            if let aView = view as? T{
+        for view in subviews {
+            if let aView = view as? T {
                 all.append(aView)
             }
         }
         return all
     }
     
-    
     /// This is a function to get subViews of a particular type from view recursively. It would look recursively in all subviews and return back the subviews of the type T
     /// https://stackoverflow.com/a/45297466/5321670
-    func allSubViewsOf<T : UIView>(type : T.Type) -> [T]{
+    func allSubViewsOf<T: UIView>(type: T.Type) -> [T] {
         var all = [T]()
         func getSubview(view: UIView) {
-            if let aView = view as? T{
+            if let aView = view as? T {
                 all.append(aView)
             }
-            guard view.subviews.count>0 else { return }
-            view.subviews.forEach{ getSubview(view: $0) }
+            guard view.subviews.count > 0 else { return }
+            view.subviews.forEach { getSubview(view: $0) }
         }
         getSubview(view: self)
         return all
@@ -585,8 +574,8 @@ extension UIView {
 }
 
 // MARK: - Initializers
+
 extension UIAlertController {
-    
     /// Create new alert view controller.
     ///
     /// - Parameters:
@@ -602,7 +591,7 @@ extension UIAlertController {
         let isPad: Bool = UIDevice.current.userInterfaceIdiom == .pad
         let root = UIApplication.shared.keyWindow?.rootViewController?.view
         
-        //self.responds(to: #selector(getter: popoverPresentationController))
+        // self.responds(to: #selector(getter: popoverPresentationController))
         if let source = source {
             print("----- source")
             popoverPresentationController?.sourceView = source
@@ -611,20 +600,19 @@ extension UIAlertController {
             print("----- is pad")
             popoverPresentationController?.sourceView = source
             popoverPresentationController?.sourceRect = CGRect(x: source.bounds.midX, y: source.bounds.midY, width: 0, height: 0)
-            //popoverPresentationController?.permittedArrowDirections = .down
+            // popoverPresentationController?.permittedArrowDirections = .down
             popoverPresentationController?.permittedArrowDirections = .init(rawValue: 0)
         }
         
         if let color = tintColor {
-            self.view.tintColor = color
+            view.tintColor = color
         }
     }
 }
 
-
 // MARK: - Methods
+
 extension UIAlertController {
-    
     /// Present alert view controller in the current view controller.
     ///
     /// - Parameters:
@@ -632,8 +620,7 @@ extension UIAlertController {
     ///   - vibrate: set true to vibrate the device while presenting the alert (default is false).
     ///   - completion: an optional completion handler to be called after presenting alert controller (default is nil).
     public func show(animated: Bool = true, vibrate: Bool = false, style: UIBlurEffect.Style? = nil, completion: (() -> Void)? = nil) {
-        
-        /// TODO: change UIBlurEffectStyle
+        // TODO: change UIBlurEffectStyle
         if let style = style {
             for subview in view.allSubViewsOf(type: UIVisualEffectView.self) {
                 subview.effect = UIBlurEffect(style: style)
@@ -656,8 +643,8 @@ extension UIAlertController {
     ///   - isEnabled: isEnabled status for action (default is true)
     ///   - handler: optional action handler to be called when button is tapped (default is nil)
     func addAction(image: UIImage? = nil, title: String, color: UIColor? = nil, style: UIAlertAction.Style = .default, isEnabled: Bool = true, handler: ((UIAlertAction) -> Void)? = nil) {
-        //let isPad: Bool = UIDevice.current.userInterfaceIdiom == .pad
-        //let action = UIAlertAction(title: title, style: isPad && style == .cancel ? .default : style, handler: handler)
+        // let isPad: Bool = UIDevice.current.userInterfaceIdiom == .pad
+        // let action = UIAlertAction(title: title, style: isPad && style == .cancel ? .default : style, handler: handler)
         let action = UIAlertAction(title: title, style: style, handler: handler)
         action.isEnabled = isEnabled
         
@@ -729,13 +716,11 @@ extension UIAlertController {
     }
 }
 
-
 public struct Assets {
-    
     /// Requests access to the user's contacts
     ///
     /// - Parameter requestGranted: Result as Bool
-    public static func requestAccess(_ requestGranted: @escaping (PHAuthorizationStatus) -> ()) {
+    public static func requestAccess(_ requestGranted: @escaping (PHAuthorizationStatus) -> Void) {
         PHPhotoLibrary.requestAuthorization { status in
             requestGranted(status)
         }
@@ -831,7 +816,6 @@ public struct Assets {
 }
 
 extension UIAlertController {
-    
     /// Add PhotoLibrary Picker
     ///
     /// - Parameters:
@@ -847,7 +831,6 @@ extension UIAlertController {
         
         let buttonAdd = UIAlertAction(title: "Add", style: .default) { action in
             switch selection {
-                
             case .single(let action):
                 action?(asset)
                 
@@ -859,12 +842,12 @@ extension UIAlertController {
         
         let vc = PhotoLibraryPickerViewController(flow: flow, paging: paging, selection: {
             switch selection {
-            case .single(_):
+            case .single:
                 return .single(action: { new in
                     buttonAdd.isEnabled = new != nil
                     asset = new
                 })
-            case .multiple(_):
+            case .multiple:
                 return .multiple(action: { new in
                     buttonAdd.isEnabled = new.count > 0
                     assets = new
@@ -885,7 +868,6 @@ extension UIAlertController {
 }
 
 final class PhotoLibraryPickerViewController: UIViewController {
-    
     public typealias SingleSelection = (PHAsset?) -> Swift.Void
     public typealias MultipleSelection = ([PHAsset]) -> Swift.Void
     
@@ -931,7 +913,7 @@ final class PhotoLibraryPickerViewController: UIViewController {
         $0.maskToBounds = false
         $0.clipsToBounds = false
         return $0
-        }(UICollectionView(frame: .zero, collectionViewLayout: layout))
+    }(UICollectionView(frame: .zero, collectionViewLayout: layout))
     
     fileprivate lazy var layout: UICollectionViewFlowLayout = {
         $0.minimumInteritemSpacing = 0
@@ -939,26 +921,25 @@ final class PhotoLibraryPickerViewController: UIViewController {
         $0.sectionInset = .zero
         return $0
     }(UICollectionViewFlowLayout())
-
+    
     fileprivate var selection: Selection?
     fileprivate var assets: [PHAsset] = []
     fileprivate var selectedAssets: [PHAsset] = []
     
     // MARK: Initialize
     
-    required public init(flow: UICollectionView.ScrollDirection, paging: Bool, selection: Selection) {
+    public required init(flow: UICollectionView.ScrollDirection, paging: Bool, selection: Selection) {
         super.init(nibName: nil, bundle: nil)
         
         self.selection = selection
-        self.layout.scrollDirection = flow
+        layout.scrollDirection = flow
         
-        self.collectionView.isPagingEnabled = paging
+        collectionView.isPagingEnabled = paging
         
         switch selection {
-            
-        case .single(_):
+        case .single:
             collectionView.allowsSelection = true
-        case .multiple(_):
+        case .multiple:
             collectionView.allowsMultipleSelection = true
         }
     }
@@ -988,12 +969,11 @@ final class PhotoLibraryPickerViewController: UIViewController {
         }
     }
     
-    func checkStatus(completionHandler: @escaping ([PHAsset]) -> ()) {
+    func checkStatus(completionHandler: @escaping ([PHAsset]) -> Void) {
         switch PHPhotoLibrary.authorizationStatus() {
-            
         case .notDetermined:
             /// This case means the user is prompted for the first time for allowing contacts
-            Assets.requestAccess { [weak self] status in
+            Assets.requestAccess { [weak self] _ in
                 self?.checkStatus(completionHandler: completionHandler)
             }
             
@@ -1007,28 +987,27 @@ final class PhotoLibraryPickerViewController: UIViewController {
             /// User has denied the current app to access the contacts.
             let productName = Bundle.main.infoDictionary!["CFBundleName"]!
             let alert = UIAlertController(style: .alert, title: "Permission denied", message: "\(productName) does not have access to contacts. Please, allow the application to access to your photo library.")
-            alert.addAction(title: "Settings", style: .destructive) { action in
+            alert.addAction(title: "Settings", style: .destructive) { _ in
                 if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
                     UIApplication.shared.open(settingsURL)
                 }
             }
-            alert.addAction(title: "OK", style: .cancel) { [unowned self] action in
+            alert.addAction(title: "OK", style: .cancel) { [unowned self] _ in
                 self.alertController?.dismiss(animated: true)
             }
             alert.show()
         }
     }
     
-    func fetchPhotos(completionHandler: @escaping ([PHAsset]) -> ()) {
+    func fetchPhotos(completionHandler: @escaping ([PHAsset]) -> Void) {
         Assets.fetch { [unowned self] result in
             switch result {
-                
             case .success(let assets):
                 completionHandler(assets)
                 
             case .error(let error):
                 let alert = UIAlertController(style: .alert, title: "Error", message: error.localizedDescription)
-                alert.addAction(title: "OK") { [unowned self] action in
+                alert.addAction(title: "OK") { [unowned self] _ in
                     self.alertController?.dismiss(animated: true)
                 }
                 alert.show()
@@ -1040,11 +1019,9 @@ final class PhotoLibraryPickerViewController: UIViewController {
 // MARK: - CollectionViewDelegate
 
 extension PhotoLibraryPickerViewController: UICollectionViewDelegate {
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let asset = assets[indexPath.item]
         switch selection {
-            
         case .single(let action)?:
             action?(asset)
             
@@ -1054,7 +1031,8 @@ extension PhotoLibraryPickerViewController: UICollectionViewDelegate {
                 : selectedAssets.append(asset)
             action?(selectedAssets)
             
-        case .none: break }
+        case .none: break
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -1065,14 +1043,14 @@ extension PhotoLibraryPickerViewController: UICollectionViewDelegate {
                 ? selectedAssets.remove(asset)
                 : selectedAssets.append(asset)
             action?(selectedAssets)
-        default: break }
+        default: break
+        }
     }
 }
 
 // MARK: - CollectionViewDataSource
 
 extension PhotoLibraryPickerViewController: UICollectionViewDataSource {
-    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -1094,7 +1072,6 @@ extension PhotoLibraryPickerViewController: UICollectionViewDataSource {
 // MARK: - CollectionViewDelegateFlowLayout
 
 extension PhotoLibraryPickerViewController: UICollectionViewDelegateFlowLayout {
-    
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return itemSize
     }
@@ -1102,55 +1079,56 @@ extension PhotoLibraryPickerViewController: UICollectionViewDelegateFlowLayout {
 
 struct ViewControllerWrapper: UIViewControllerRepresentable {
     typealias UIViewControllerType = PhotoLibraryPickerViewController
-    @Binding var assets : [PHAsset]
+    @Binding var assets: [PHAsset]
     
-
     func makeUIViewController(context: UIViewControllerRepresentableContext<ViewControllerWrapper>) -> ViewControllerWrapper.UIViewControllerType {
-        return PhotoLibraryPickerViewController(flow: .vertical, paging: false, selection: .multiple{ assets in self.assets = assets })
+        return PhotoLibraryPickerViewController(flow: .vertical, paging: false, selection: .multiple { assets in self.assets = assets })
     }
     
-
     func updateUIViewController(_ uiViewController: ViewControllerWrapper.UIViewControllerType, context: UIViewControllerRepresentableContext<ViewControllerWrapper>) {
         //
     }
 }
 
-
 @available(iOS 13.0, *)
 public struct PhotoLibraryPicker: View {
     @Environment(\.presentationMode) var presentationMode
-    @Binding var images : [Picture]
+    @Binding var images: [Picture]
     @State var assets = [PHAsset]()
+    var cancelLabel: String = "Cancel"
+    var saveLabel: String = "Save"
+    var navigationBarLabel: String = "Photos"
     
     public init(_ images: Binding<[Picture]>) {
-       self._images = images
-   }
+        self._images = images
+    }
     
     var saveButton: some View {
         Button(action: {
             self.images = self.assets.map { Picture(asset: $0) }
             self.presentationMode.wrappedValue.dismiss()
-        }, label: { Text("Save") }).disabled(assets.isEmpty)
-       }
-       
-   var cancelButton: some View {
-       Button(action: {
-        self.images = [Picture]()
-        self.presentationMode.wrappedValue.dismiss() },
-              label: { Text("Cancel") })
-   }
+        }, label: { Text(self.saveLabel) }).disabled(assets.isEmpty)
+    }
+    
+    var cancelButton: some View {
+        Button(action: {
+            self.images = [Picture]()
+            self.presentationMode.wrappedValue.dismiss()
+        },
+               label: { Text(self.cancelLabel) })
+    }
     
     public var body: some View {
         NavigationView {
             ViewControllerWrapper(assets: $assets)
-               .navigationBarTitle(Text("Photos"), displayMode: .inline)
-               .navigationBarItems(leading: cancelButton, trailing: saveButton)
-       }
+                .navigationBarTitle(Text(self.navigationBarLabel), displayMode: .inline)
+                .navigationBarItems(leading: cancelButton, trailing: saveButton)
+        }
     }
 }
 
 @available(iOS 13.0, *)
-public struct Picture : Identifiable {
+public struct Picture: Identifiable {
     public let id = UUID()
     public let asset: PHAsset
     
@@ -1159,14 +1137,14 @@ public struct Picture : Identifiable {
         let option = PHImageRequestOptions()
         var image = UIImage()
         option.isSynchronous = true
-        manager.requestImage(for: asset, targetSize: CGSize(width: width, height: height), contentMode: mode, options: option, resultHandler: {(result, info)->Void in
+        manager.requestImage(for: asset, targetSize: CGSize(width: width, height: height), contentMode: mode, options: option, resultHandler: { (result, _) -> Void in
             image = result!
         })
         return Image(uiImage: image)
     }
     
     public func videoUrl(result: @escaping ((URL?) -> Void)) {
-        PHImageManager.default().requestAVAsset(forVideo: asset, options: .none) { (asset, mix, dictionary) in
+        PHImageManager.default().requestAVAsset(forVideo: asset, options: .none) { asset, _, _ in
             if let urlAsset = asset as? AVURLAsset {
                 result(urlAsset.url)
             } else {
@@ -1181,5 +1159,3 @@ struct PhotoLibraryPicker_Previews: PreviewProvider {
         PhotoLibraryPicker(.constant([Picture]()))
     }
 }
-
-
