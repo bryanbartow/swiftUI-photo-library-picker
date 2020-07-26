@@ -1095,9 +1095,9 @@ public struct PhotoLibraryPicker: View {
     @Environment(\.presentationMode) var presentationMode
     @Binding var images: [Picture]
     @State var assets = [PHAsset]()
-    var cancelLabel: String = "Cancel"
-    var saveLabel: String = "Save"
-    var navigationBarLabel: String = "Photos"
+    public var cancelLabel: String = "Cancel"
+    public var saveLabel: String = "Save"
+    public var navigationBarLabel: String = "Photos"
     
     public init(_ images: Binding<[Picture]>) {
         self._images = images
