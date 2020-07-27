@@ -1126,7 +1126,7 @@ public struct PhotoLibraryPicker: View {
     
     public var body: some View {
         NavigationView {
-            ViewControllerWrapper(assets: $assets)
+            ViewControllerWrapper(assets: $assets, useSingleSelection: useSingleSelection)
                 .navigationBarTitle(Text(self.navigationBarLabel), displayMode: .inline)
                 .navigationBarItems(leading: cancelButton, trailing: saveButton)
         }
