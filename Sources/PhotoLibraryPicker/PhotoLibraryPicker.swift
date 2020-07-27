@@ -1109,6 +1109,18 @@ public struct PhotoLibraryPicker: View {
         self._images = images
     }
     
+    public init(
+        _ images: Binding<[Picture]>,
+        saveLabel: String = "Upload",
+        navigationBarLabel: String = "Videos",
+        useSingleSelection: Bool = false
+    ) {
+        self._images = images
+        self.saveLabel = saveLabel
+        self.navigationBarLabel = navigationBarLabel
+        self.useSingleSelection = useSingleSelection
+    }
+    
     var saveButton: some View {
         Button(action: {
             self.images = self.assets.map { Picture(asset: $0) }
