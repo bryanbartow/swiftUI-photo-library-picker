@@ -1080,9 +1080,14 @@ extension PhotoLibraryPickerViewController: UICollectionViewDelegateFlowLayout {
 struct ViewControllerWrapper: UIViewControllerRepresentable {
     typealias UIViewControllerType = PhotoLibraryPickerViewController
     @Binding var assets: [PHAsset]
+    var useSingleSelection: Bool = false
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<ViewControllerWrapper>) -> ViewControllerWrapper.UIViewControllerType {
-        return PhotoLibraryPickerViewController(flow: .vertical, paging: false, selection: .multiple { assets in self.assets = assets })
+        if useSingleSelection {
+            return PhotoLibraryPickerViewController(flow: .vertical, paging: false, selection: .single { asset in self.assets = [asset!] })
+        } else {
+            return PhotoLibraryPickerViewController(flow: .vertical, paging: false, selection: .multiple { assets in self.assets = assets })
+        }
     }
     
     func updateUIViewController(_ uiViewController: ViewControllerWrapper.UIViewControllerType, context: UIViewControllerRepresentableContext<ViewControllerWrapper>) {
@@ -1098,6 +1103,7 @@ public struct PhotoLibraryPicker: View {
     public var cancelLabel: String = "Cancel"
     public var saveLabel: String = "Save"
     public var navigationBarLabel: String = "Photos"
+    public var useSingleSelection: Bool = false
     
     public init(_ images: Binding<[Picture]>) {
         self._images = images
